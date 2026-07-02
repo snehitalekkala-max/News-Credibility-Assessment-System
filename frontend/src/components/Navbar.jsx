@@ -1,4 +1,5 @@
 import { ShieldCheck } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
@@ -15,15 +16,26 @@ function Navbar() {
 
         {/* Navigation */}
         <div className="flex gap-8 text-lg">
-          <a href="#" className="hover:text-cyan-400 transition">Home</a>
-          <a href="#" className="hover:text-cyan-400 transition">Features</a>
-          <a href="#" className="hover:text-cyan-400 transition">About</a>
+          <Link to="/" className="hover:text-cyan-400 transition">
+            Home
+          </Link>
+
+          <Link to="/analyze" className="hover:text-cyan-400 transition">
+            Analyze
+          </Link>
+
+          <Link to="/dashboard" className="hover:text-cyan-400 transition">
+            Dashboard
+          </Link>
         </div>
 
         {/* Login Button */}
-        <button className="bg-cyan-500 hover:bg-cyan-600 px-5 py-2 rounded-lg font-semibold">
+        <Link
+          to="/login"
+          className="bg-cyan-500 hover:bg-cyan-600 px-5 py-2 rounded-lg font-semibold"
+        >
           Login
-        </button>
+        </Link>
 
       </div>
     </nav>

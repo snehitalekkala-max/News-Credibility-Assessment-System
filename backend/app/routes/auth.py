@@ -3,7 +3,12 @@ from sqlalchemy.orm import Session
 
 from app.database import SessionLocal
 from app.models import User
-from app.schemas import UserCreate
+from app.schemas import UserCreate, UserLogin
+from app.security import (
+    hash_password,
+    verify_password,
+    create_access_token,
+)
 
 router = APIRouter(
     prefix="/auth",
@@ -11,7 +16,9 @@ router = APIRouter(
 )
 
 
-# Database session
+# -----------------------------
+# Database Session
+# -----------------------------
 def get_db():
     db = SessionLocal()
     try:
@@ -20,11 +27,16 @@ def get_db():
         db.close()
 
 
+# -----------------------------
+# Register User
+# -----------------------------
 @router.post("/register")
 def register(user: UserCreate, db: Session = Depends(get_db)):
 
     # Check if email already exists
-    existing_user = db.query(User).filter(User.email == user.email).first()
+    existing_user = db.query(User).filter(
+        User.email == user.email
+    ).first()
 
     if existing_user:
         raise HTTPException(
@@ -32,11 +44,16 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
             detail="Email already registered"
         )
 
-    # Create new user
+    # Hash Password
+    print(user.password)
+    print(type(user.password))
+    hashed_password = hash_password(user.password)
+
+    # Create User
     new_user = User(
         name=user.name,
         email=user.email,
-        password=user.password
+        password=hashed_password
     )
 
     db.add(new_user)
@@ -53,8 +70,47 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     }
 
 
+# -----------------------------
+# Login User
+# -----------------------------
 @router.post("/login")
-def login():
+def login(user: UserLogin, db: Session = Depends(get_db)):
+
+    # Find User
+    db_user = db.query(User).filter(
+        User.email == user.email
+    ).first()
+
+    if not db_user:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid email or password"
+        )
+
+    # Verify Password
+    if not verify_password(
+        user.password,
+        db_user.password
+    ):
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid email or password"
+        )
+
+    # Generate JWT Token
+    access_token = create_access_token(
+        data={
+            "sub": db_user.email
+        }
+    )
+
     return {
-        "message": "Login successful"
+        "message": "Login successful",
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": {
+            "id": db_user.id,
+            "name": db_user.name,
+            "email": db_user.email
+        }
     }

@@ -27,19 +27,17 @@ function Hero() {
           </p>
 
           {/* Buttons */}
-          <div className="mt-10 flex flex-wrap gap-5">
+          <div className="mt-10 flex gap-5">
 
-            <Link to="/analyze">
-              <button className="bg-cyan-500 hover:bg-cyan-600 transition px-8 py-4 rounded-xl font-semibold shadow-lg">
-                Analyze News
-              </button>
-            </Link>
+              <Link to="/login">
+                    <button className="bg-cyan-500 hover:bg-cyan-600 px-8 py-4 rounded-xl font-semibold text-white">
+                            Get Started
+                    </button>
+              </Link>
 
-            <Link to="/compare">
-              <button className="border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-500 hover:text-white transition px-8 py-4 rounded-xl font-semibold">
-                Compare Articles
-              </button>
-            </Link>
+                    <button className="border border-cyan-400 text-cyan-400 hover:bg-cyan-500 hover:text-white px-8 py-4 rounded-xl font-semibold">
+                            Learn More
+                    </button>
 
           </div>
 

@@ -7,12 +7,12 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
         {/* Logo */}
-        <div className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <ShieldCheck size={32} className="text-cyan-400" />
           <h1 className="text-2xl font-bold text-cyan-400">
             NewsCredAI
           </h1>
-        </div>
+        </Link>
 
         {/* Navigation */}
         <div className="flex gap-8 text-lg">
@@ -20,13 +20,13 @@ function Navbar() {
             Home
           </Link>
 
-          <Link to="/analyze" className="hover:text-cyan-400 transition">
-            Analyze
-          </Link>
+          <a href="#features" className="hover:text-cyan-400 transition">
+            Features
+          </a>
 
-          <Link to="/dashboard" className="hover:text-cyan-400 transition">
-            Dashboard
-          </Link>
+          <a href="#about" className="hover:text-cyan-400 transition">
+            About
+          </a>
         </div>
 
         {/* Login Button */}

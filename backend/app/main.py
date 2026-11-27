@@ -3,6 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import Base, engine
 from app.routes.auth import router as auth_router
+from app.routes.news import router as news_router
+from app.routes.history import router as history_router
+from app import models
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -23,7 +26,8 @@ app.add_middleware(
 
 # Include routes
 app.include_router(auth_router)
-
+app.include_router(news_router)
+app.include_router(history_router)
 @app.get("/")
 def home():
     return {
